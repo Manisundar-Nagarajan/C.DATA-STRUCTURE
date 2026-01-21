@@ -1,0 +1,76 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct st
+{
+    int roll;
+    char name[20];
+    float mark;
+    struct st *next;
+};
+
+void add_begin(struct st**);
+void print(struct st*);
+void delete_pn(struct st**,int);
+
+int main()
+{
+    struct st *hptr=0;
+    char op;
+    int n;
+    do{
+        add_begin(&hptr);
+        printf("Do you want to add another student details (y/n)");
+        scanf(" %c", &op);
+    }while(op=='y');
+    printf("Enter the roll number you want to delete ");
+    scanf("%d", &n);
+    delete_pn(&hptr,n);
+    print(hptr);
+}
+
+void add_begin(struct st **ptr)
+{
+    struct st *temp;
+    temp=(struct st *)malloc(sizeof(struct st));
+    printf("Enter the data:\n");
+    scanf("%d %s %f",&temp->roll,temp->name,&temp->mark);
+    temp->next=*ptr;
+    *ptr=temp;
+}
+
+void print(struct st *ptr)
+{
+    printf("Printing the data\n");
+    while(ptr!=0)
+    {
+        printf("%d %s %f\n", ptr->roll, ptr->name, ptr->mark);
+        ptr=ptr->next;
+    }
+}
+
+void delete_pn(struct st **ptr, int n)
+{
+    struct st *prev;
+    struct st *temp=*ptr;
+    while(temp!=0)
+    {
+        if(temp->roll==n)
+        {
+           if(temp==*ptr)
+           {
+               *ptr=temp->next;
+           }
+           else
+           {
+               prev->next=temp->next;
+           }
+           free(temp);
+        }
+        else
+        {
+            prev=temp;
+            temp=temp->next;
+        }
+        
+    }
+}
